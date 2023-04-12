@@ -30,14 +30,23 @@ const mongooseOpts = {
 };
 
 
-const Deck = new mongoose.Schema({
+
+
+const Cards = new mongoose.Schema({
   question: String,
   played: Boolean
 
 })
 
+const Decks = new mongoose.Schema({
+  name: String,
+  cards: [Cards]
+})
 
-mongoose.model('Deck', Deck); //
+mongoose.model('Cards', Cards); //
+
+
+mongoose.model('Decks', Decks);
 
 
 
