@@ -61,8 +61,22 @@ app.get('/deck', (req, res) => {
     .catch(() => res.status(500).send('server error'));
 })
 
-//show one specific deck 
-// app.get('/deck/slug')
+// show one specific deck and its cards
+app.get('/deck/:slug', (req, res) => {
+  const deckSlug = req.params.slug; // retrieve the deck slug from the request parameters
+
+  // find the deck with the matching slug (e.g., in your database or an array of decks)
+  Decks.findOne({ name: deckSlug })
+    .populate('cards') // populate the 'cards' field with the corresponding card documents
+    .then(foundDeck => {
+      if (!foundDeck) {
+        return res.status(404).send('Deck not found');
+      }
+      res.render('table', { deck: foundDeck }); //foundCards
+    })
+    .catch(() => res.status(500).send('Server error'));
+});
+
   
 
 app.get('/cards/add', (req, res) => {
