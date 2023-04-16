@@ -63,11 +63,9 @@ app.get('/deck', (req, res) => {
 
 // show one specific deck and its cards
 app.get('/deck/:slug', (req, res) => {
-  const deckSlug = req.params.slug; // retrieve the deck slug from the request parameters
-
-  // find the deck with the matching slug (e.g., in your database or an array of decks)
+  const deckSlug = req.params.slug; 
   Decks.findOne({ name: deckSlug })
-    .populate('cards') // populate the 'cards' field with the corresponding card documents
+    .populate('cards')
     .then(foundDeck => {
       if (!foundDeck) {
         return res.status(404).send('Deck not found');
@@ -77,21 +75,51 @@ app.get('/deck/:slug', (req, res) => {
     .catch(() => res.status(500).send('Server error'));
 });
 
-  
 
-app.get('/cards/add', (req, res) => {
+app.get('/deck/:slug/addCard', (req, res) => {
   res.render("addCard");
 });
 
-app.post('/cards/add', (req, res) => {
-  const c = new Cards({
-    question: req.body.question
-  });
-  c.save()
-    .then(() => res.redirect('/'))
-    .catch(() => res.status(500).send('server error'));
+// app.post('/deck/:slug/addCard', (req, res) => {
+//   const c = new Cards({
+//     question: req.body.question
+//   });
+//   c.save()
+//     .then(() => res.redirect('/deck/:slug/card'))
+//     .catch(() => res.status(500).send('server error'));
+// });
+
+// app.get('/deck/:slug/card', (req, res) => {
+//   const query = {};
+//   const foundQuestions = req.query.question;
+//   if(foundQuestions){
+//     query.question = foundQuestions;
+//   }
+//   Cards.find(query) 
+//     .then(foundCards => {
+//       res.render('table', {foundCards});
+//     })
+//     .catch(() => res.status(500).send('server error'));
+      
+// });
+
+
+
   
-});
+
+// app.get('/cards/add', (req, res) => {
+//   res.render("addCard");
+// });
+
+// app.post('/cards/add', (req, res) => {
+//   const c = new Cards({
+//     question: req.body.question
+//   });
+//   c.save()
+//     .then(() => res.redirect('/'))
+//     .catch(() => res.status(500).send('server error'));
+  
+// });
 
 
 app.listen(process.env.PORT ?? 3000);

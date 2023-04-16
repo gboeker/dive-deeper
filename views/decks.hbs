@@ -1,16 +1,3 @@
-
-{{!-- {{#each decksFound}}
-  <div class="card">
-    <a href="/decks/{{this.id}}">
-      <div class="content">
-        <div class="center">
-          {{this.name}}
-        </div>
-      </div>
-    </a>
-  </div>
-{{/each}} --}}
-
 <div class="container">
   {{#each decksFound}}
   <div class="card">
@@ -22,3 +9,18 @@
   </div>
   {{/each}}
 </div>
+
+<script>
+    const decks = document.querySelectorAll(".card");
+
+    decks.forEach(card => {
+        card.addEventListener("click", () => {
+            const deckName = card.querySelector(".center").textContent.trim();
+            const deckURL = "/deck/" + deckName;
+
+            window.location.href = deckURL;
+        });
+    });
+</script>
+
+
