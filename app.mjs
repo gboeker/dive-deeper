@@ -70,16 +70,60 @@ app.get('/deck/:slug', (req, res) => {
       if (!foundDeck) {
         return res.status(404).send('Deck not found');
       }
-      res.render('table', { deck: foundDeck }); //foundCards
+      res.render('cardsTable', { deck: foundDeck }); //foundCards
     })
     .catch(() => res.status(500).send('Server error'));
 });
 
 
 app.get('/deck/:slug/addCard', (req, res) => {
-  res.render("addCard");
+  const deckSlug = req.params.slug;
+  res.render("addCard", {deckSlug});
 });
 
+
+
+
+//  POST /deck/:slug
+// app.post('/deck/:slug/addCard', (req, res) => {
+//   const deckSlug = req.params.slug;
+//   const c = new Cards({
+//     question: req.body.question
+//   });
+//   c.save()
+//     .then(savedCard => {
+//       return Decks.updateOne(
+//         {name: deckSlug},
+//         {$push: {cards: [{question: }]}},
+//         {new: true}
+//       );
+//     })
+//     .then(() => {
+//       res.redirect(`/deck/${deckSlug}`)
+//     })
+//     .catch(() => res.status(500).send('server error'));
+// });
+
+app.post('/deck/:slug/addCard', (req, res) => {
+  const deckSlug = req.params.slug;
+  const c = new Cards({
+    question: req.body.question
+  });
+  c.save()
+    .then(savedCard => {
+      return Decks.updateOne(
+        {name: deckSlug},
+        {$push: {cards: savedCard}},
+        {new: true}
+      );
+    })
+    .then(() => {
+      res.redirect(`/deck/${deckSlug}`)
+    })
+    .catch(() => res.status(500).send('server error'));
+});
+
+  
 // app.post('/deck/:slug/addCard', (req, res) => {
 //   const c = new Cards({
 //     question: req.body.question

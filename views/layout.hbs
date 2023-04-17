@@ -17,7 +17,9 @@
 		<ul>
 			<li><a href="/deck">All Decks</a></li>
 			<li><a href="/deck/create">Create New Deck</a></li>
-			{{!-- <li><a href="/deck/:slug/addCard">Add Question</a></li> --}}
+			{{#if deck}}
+				<li><a href="/deck/{{deck.name}}/addCard">Add Card</a></li>
+			{{/if}}
 		</ul>
 	</nav>
 
