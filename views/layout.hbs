@@ -19,6 +19,13 @@
 			<li><a href="/deck/create">Create New Deck</a></li>
 			{{#if deck}}
 				<li><a href="/deck/{{deck.name}}/addCard">Add Card</a></li>
+				{{!-- <li><a href="/deck/{{deck.name}}/delete">Delete Deck</a></li> --}}
+				{{!-- <li>
+						<form action="/deck/{{deck.name}}/delete" method="post">
+							<button type="submit" class="deleteButton">Delete Deck</button>
+						</form>
+					
+				</li> --}}
 			{{/if}}
 		</ul>
 	</nav>

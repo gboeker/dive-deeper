@@ -47,6 +47,19 @@ nav a:hover {
     background-color: #e1948d;
 }
 
+/* .deleteButton {
+	background-color: #7a6763;
+    border: none;
+    padding: 10px;
+    list-style: none;
+
+}
+  
+.deleteButton:hover {
+    background-color: #d27972;
+} */
+  
+
 /* label {
     display: block;
     font-weight: bold;
@@ -75,19 +88,25 @@ th {
 }
 
 
-/* creating cards */
+/* creating cards for deck*/
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-row-gap: 5rem;
     grid-column-gap: 5rem;
+    width: 350;
+    height: 200;
     padding: 5rem;
     color: #fff;
 }
 
+
+
 .card {
     /* This will come in handy later to center the contents */
     position: relative;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+
 }
 
 .card:after {
@@ -116,3 +135,62 @@ th {
     background-color: #e1948d;
 }
   
+
+/* creating cards for questions*/
+.container2 {
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin: auto;
+
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+
+    color: #7a6763;
+    
+}
+
+
+.card2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+    width: 100%;
+}
+
+.card2:after {
+    content: "";
+    display: block;
+    padding-bottom: 65%;
+}
+
+.card2 .content2 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    
+}
+
+.center2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 0.75rem;
+    background-color: #fff;
+}
+
+.hidden {
+    display: none;
+}
+

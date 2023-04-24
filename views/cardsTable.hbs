@@ -1,17 +1,29 @@
-<table>
-  <thead>
-    <tr>
-        <th>Card Question</th>
 
-    </tr>
-  </thead>
-  <tbody>
-    {{#each deck.cards}}
-      <tr>
-        <td>{{this.question}}</td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+<div class="container2">
+  {{#each deck.cards}}
+  <div class="card2">
+    <div class="content2">
+      <div class="center2">
+        {{this.question}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
 
+<script>
+    const cards = document.querySelectorAll(".card2");
+
+    cards.forEach(card => {
+        card.addEventListener("click", () => {
+            card.classList.toggle('hidden');      
+
+        });
+    });
+</script>
+
+
+<form action="/deck/{{deckSlug}}/delete" method="post">
+    <button type="submit">Delete Deck</button>
+</form>
 

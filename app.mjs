@@ -17,20 +17,8 @@ app.set('view engine', 'hbs'); //
 app.use(express.urlencoded({extended: false})); //
 
 
-
-
 app.get('/', (req, res) => {
-  const query = {};
-  const foundQuestions = req.query.question;
-  if(foundQuestions){
-    query.question = foundQuestions;
-  }
-  Cards.find(query) 
-    .then(foundCards => {
-      res.render('table', {foundCards});
-    })
-    .catch(() => res.status(500).send('server error'));
-      
+  res.redirect('/deck');
 });
 
 //create new deck
@@ -70,7 +58,7 @@ app.get('/deck/:slug', (req, res) => {
       if (!foundDeck) {
         return res.status(404).send('Deck not found');
       }
-      res.render('cardsTable', { deck: foundDeck }); //foundCards
+      res.render('cardsTable', { deck: foundDeck, deckSlug }); //foundCards
     })
     .catch(() => res.status(500).send('Server error'));
 });
@@ -81,28 +69,6 @@ app.get('/deck/:slug/addCard', (req, res) => {
   res.render("addCard", {deckSlug});
 });
 
-
-
-
-//  POST /deck/:slug
-// app.post('/deck/:slug/addCard', (req, res) => {
-//   const deckSlug = req.params.slug;
-//   const c = new Cards({
-//     question: req.body.question
-//   });
-//   c.save()
-//     .then(savedCard => {
-//       return Decks.updateOne(
-//         {name: deckSlug},
-//         {$push: {cards: [{question: }]}},
-//         {new: true}
-//       );
-//     })
-//     .then(() => {
-//       res.redirect(`/deck/${deckSlug}`)
-//     })
-//     .catch(() => res.status(500).send('server error'));
-// });
 
 app.post('/deck/:slug/addCard', (req, res) => {
   const deckSlug = req.params.slug;
@@ -123,48 +89,21 @@ app.post('/deck/:slug/addCard', (req, res) => {
     .catch(() => res.status(500).send('server error'));
 });
 
-  
-// app.post('/deck/:slug/addCard', (req, res) => {
-//   const c = new Cards({
-//     question: req.body.question
-//   });
-//   c.save()
-//     .then(() => res.redirect('/deck/:slug/card'))
-//     .catch(() => res.status(500).send('server error'));
-// });
+// app.get('/deck/:slug/delete', (req, res) => {
+//   res.redirect('/deck');
+// })
 
-// app.get('/deck/:slug/card', (req, res) => {
-//   const query = {};
-//   const foundQuestions = req.query.question;
-//   if(foundQuestions){
-//     query.question = foundQuestions;
-//   }
-//   Cards.find(query) 
-//     .then(foundCards => {
-//       res.render('table', {foundCards});
-//     })
-//     .catch(() => res.status(500).send('server error'));
-      
-// });
-
-
-
-  
-
-// app.get('/cards/add', (req, res) => {
-//   res.render("addCard");
-// });
-
-// app.post('/cards/add', (req, res) => {
-//   const c = new Cards({
-//     question: req.body.question
-//   });
-//   c.save()
-//     .then(() => res.redirect('/'))
-//     .catch(() => res.status(500).send('server error'));
-  
-// });
-
+app.post('/deck/:slug/delete', (req, res) => {
+  const deckSlug = req.params.slug; 
+  Decks.findOneAndDelete({ name: deckSlug })
+    .then(deletedDeck => {
+      if (!deletedDeck) {
+        return res.status(404).send('Deck not found');
+      }
+      res.redirect('/deck');
+    })
+    .catch(() => res.status(500).send('Server error'));
+})
 
 app.listen(process.env.PORT ?? 3000);
 

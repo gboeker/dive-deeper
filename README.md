@@ -72,6 +72,8 @@ TBD, but idea:
   * server side javascript library or module not covered in class
   * client side javascript library or module not covered in class
 
+* (2 points) ESLint
+
 10 points total out of 10 required points
 
 
