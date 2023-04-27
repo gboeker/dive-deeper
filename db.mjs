@@ -29,25 +29,45 @@ const mongooseOpts = {
   useUnifiedTopology: true
 };
 
+// const UserSchema = new mongoose.Schema({
+//   username: {type: String, required: true, minLength: 3, maxLength: 20},
+//   password: {type: String, required: true, minLength: 8},
+//   email: {type: String, required: true},
+//   decks: [Decks]
+// });
 
+// const Cards = new mongoose.Schema({
+//   question: String,
+//   played: Boolean
 
+// })
+
+// const Decks = new mongoose.Schema({
+//   name: String,
+//   cards: [Cards]
+// })
+const UserSchema = new mongoose.Schema({
+  username: {type: String, required: true, minLength: 3, maxLength: 20},
+  password: {type: String, required: true, minLength: 8},
+  email: {type: String, required: true},
+  decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Decks' }]
+});
 
 const Cards = new mongoose.Schema({
   question: String,
   played: Boolean
-
 })
 
 const Decks = new mongoose.Schema({
   name: String,
-  cards: [Cards]
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  cards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cards' }]
 })
 
 mongoose.model('Cards', Cards); //
-
-
 mongoose.model('Decks', Decks);
 
+mongoose.model('User', UserSchema);
 
 
 

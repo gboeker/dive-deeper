@@ -16,6 +16,9 @@
     "npm": "^9.6.4"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express-session": "^1.17.3",
+    "mongo-sanitize": "^1.1.0",
     "mongoose": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
