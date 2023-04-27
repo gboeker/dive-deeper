@@ -222,18 +222,27 @@ app.post('/deck/:slug/addCard', authRequired, (req, res) => {
     .catch(() => res.status(500).send('server error'));
 });
 
-app.post('/deck/:slug/delete', authRequired, (req, res) => {
-  const deckSlug = req.params.slug; 
-  Decks.findOneAndDelete({ name: deckSlug, userId: req.session.user._id})
-    .then(deletedDeck => {
-      if (!deletedDeck) {
-        return res.status(404).send('Deck not found');
-      }
-      
-      res.redirect('/deck');
-    })
-    .catch(() => res.status(500).send('Server error'));
+
+app.post('/deck/:slug/delete', authRequired, async (req, res) => {
+  const deckSlug = req.params.slug;
+  try {
+    const deletedDeck = await Decks.findOneAndDelete({ name: deckSlug, userId: req.session.user._id })
+      .populate('cards')
+      .exec();
+
+    if (!deletedDeck) {
+      return res.status(404).send('Deck not found');
+    }
+
+    // Delete all cards associated with the deleted deck
+    const deletedCards = await Cards.deleteMany({ _id: { $in: deletedDeck.cards } });
+
+    res.redirect('/deck');
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
 });
+
 
 app.listen(process.env.PORT ?? 3000);
 
