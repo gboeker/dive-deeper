@@ -29,23 +29,6 @@ const mongooseOpts = {
   useUnifiedTopology: true
 };
 
-// const UserSchema = new mongoose.Schema({
-//   username: {type: String, required: true, minLength: 3, maxLength: 20},
-//   password: {type: String, required: true, minLength: 8},
-//   email: {type: String, required: true},
-//   decks: [Decks]
-// });
-
-// const Cards = new mongoose.Schema({
-//   question: String,
-//   played: Boolean
-
-// })
-
-// const Decks = new mongoose.Schema({
-//   name: String,
-//   cards: [Cards]
-// })
 const UserSchema = new mongoose.Schema({
   username: {type: String, required: true, minLength: 3, maxLength: 20},
   password: {type: String, required: true, minLength: 8},
@@ -71,5 +54,5 @@ mongoose.model('User', UserSchema);
 
 
 
-mongoose.connect(dbconf) // mongodb://USERNAME:PASSWORD@class-mongodb.cims.nyu.edu/USERNAME
+mongoose.connect(dbconf) 
   .catch(error => handleError(error)); //
