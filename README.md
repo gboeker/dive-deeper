@@ -2,35 +2,47 @@
 
 ## Overview
 
-Dive Deeper is a web app that facilitates deeper connections amongst people. It is a card game, with each card having a different question to help the players engage in conversation. Users can register and login, and onced an account is created they can add their own questions, and create their own decks.
+Dive Deeper is a web app that facilitates deeper connections amongst people. It is a card game, with each card having a different question to help the players engage in conversation. Users can register and login, and onced an account is created they can add their own cards, and create their own decks.
 
 ## Data Model
 
-The application will store Users, CardDecks, and Questions
-* users can have multiple card decks (via references?)
-* each card deck contains multiple questions
+The application will store Users, Decks, and Cards
+* users can have multiple decks
+* each deck can have multiple cards
 
 An Example User:
 
 ```javascript
 {
-  username: "bagelthebeagle",
-  hash: // a password hash,
-  lists: // an array of references to List documents
-}
+    _id: ObjectId("644ab9d418ae08ae38227050"),
+    username: 'USERNAME',
+    password: '$2a$10$ipIRsBYtAIYcIteec9KwZ.isQuMUYpcaIme3PbmCBmmKW0tQOCwJ.',
+    email: 'glenda.boeker@gmail.com',
+    decks: [],
+    isMaster: false
+  }
 ```
 
-An Example List with Embedded Items:
+An Example Deck and Cards:
 
 ```javascript
-{
-  user: // a reference to a User object
-  cardDeckName: "For Best Friends",
-  items: [
-    { question: "What's a compliment you've recieved recently? ", played: false},
-    { question: "What was your highlight of the week?", played: true},
-  ]
-}
+  {
+    _id: ObjectId("644b38708cd5b1549da02eb0"),
+    name: 'master deck 2',
+    userId: ObjectId("644b1a069cd6bd29a568813d"),
+    cards: [
+      ObjectId("644b38768cd5b1549da02eb5"),
+      ObjectId("644b387b8cd5b1549da02eba")
+    ],
+    isPublic: true,
+    __v: 0
+  }
+
+  {
+    _id: ObjectId("644b387b8cd5b1549da02eba"),
+    question: 'master card 2',
+    __v: 0
+  }
 ```
 
 
@@ -59,20 +71,16 @@ An Example List with Embedded Items:
 1. as non-registered user, I can register a new account with the site
 2. as a user, I can log in to the site
 3. as a user, I can create a new deck
-4. as a user, I can view all of the decks I've created in a single list, as well as default decks
-5. as a user, I can add questions to an existing deck
-6. as a user, I can remove questions in an existing deck
-7. as a user, I can go through the deck, forward and backwards, seeing each individual question at a time
+4. as a user, I can view all of the decks I've created , as well as default decks
+5. as a user, I can add questions to any deck I created
+6. as a user, I can remove any existing deck
+7. as a user, I can click through each card in the deck
 
 ## Research Topics
 
-* (6 points) React frontend framework
-TBD, but idea:
-* (4 points) combination of:
-  * server side javascript library or module not covered in class
-  * client side javascript library or module not covered in class
-
-* (2 points) ESLint
+* (3 points) Configuration management: dotenv
+* (3 points) Perform client side form validation using custom JavaScript or JavaScript library
+* (1 - 6 points) Use a server-side JavaScript library or module that we did not cover in class (not including any from other requirements) handlebars, https://github.com/helpers/handlebars-helpers
 
 10 points total out of 10 required points
 
@@ -81,4 +89,4 @@ TBD, but idea:
 
 ## Annotations / References Used
 
-n/a for now
+I can't find the source anymore, but I got the card grid layout in my cardsTable.hbs and decks.hbs online
