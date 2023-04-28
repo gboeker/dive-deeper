@@ -4,6 +4,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed" rel="stylesheet">
 
 		<link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<script src="https://accounts.google/gsi/client" async defer></script>
 </head>
 <body>
 	<nav>
@@ -42,14 +43,17 @@
 			<li><a href="/deck">All Decks</a></li>
 			<li><a href="/deck/create">Create New Deck</a></li>
 			{{#if deck}}
+				{{#unless deck.isPublic}}
 				<li><a href="/deck/{{deck.name}}/addCard">Add Card</a></li>
 				{{!-- <li><a href="/deck/{{deck.name}}/delete">Delete Deck</a></li> --}}
-				{{!-- <li>
+				<li>
+					<a>
 						<form action="/deck/{{deck.name}}/delete" method="post">
 							<button type="submit" class="deleteButton">Delete Deck</button>
 						</form>
-					
-				</li> --}}
+					</a>
+				</li>
+				{{/unless}}
 			{{/if}}
 		</ul>
 	</nav>

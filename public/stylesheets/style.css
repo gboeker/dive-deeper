@@ -229,26 +229,6 @@ input {
   display:inline;
 }
 
-/* #logout-form > button {
-    background-color: #7c6f6b;
-
-} */
-
-
-/* header {
-    display: flex;
-    align-items: center;
-} */
-
-/* img {
-    width: 10%;
-    height: auto;
-    margin-right: 1rem; 
-    margin-left: 20rem;
-    margin-bottom: -5rem;
-    float: left;
-
-} */
 
 
 .logo {
@@ -257,18 +237,11 @@ input {
     justify-content: center
 }
 
-/* .image {
-    width: 50%;
-    height: auto;
-} */
 
 img {
     width: 50%;
     height: auto;
-    /* margin-right: 1rem; 
-    margin-left: 20rem;
-    margin-bottom: -5rem;
-    float: left; */
+
 
 }
 
@@ -277,3 +250,20 @@ img {
     font-size: 20px;
     color: #4a3734;
 }
+
+
+.deleteButton {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    font: inherit;
+}
+
+.deleteButton:hover {
+    text-decoration: none;
+
+}
+  

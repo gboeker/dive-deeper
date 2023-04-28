@@ -44,7 +44,8 @@ const Cards = new mongoose.Schema({
 const Decks = new mongoose.Schema({
   name: String,
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  cards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cards' }]
+  cards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cards' }],
+  isPublic: Boolean
 })
 
 mongoose.model('Cards', Cards); //

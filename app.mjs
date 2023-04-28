@@ -160,7 +160,8 @@ app.get('/deck/create', authRequired, (req, res) => {
 app.post('/deck/create', authRequired, async (req, res) => {
   const d = new Decks({
     name: req.body.name,
-    userId: req.session.user._id
+    userId: req.session.user._id,
+    isPublic: false 
   });
 
   try {
@@ -177,20 +178,28 @@ app.post('/deck/create', authRequired, async (req, res) => {
 
 //show all created decks
 app.get('/deck', authRequired, async (req, res) => {
-  const decksFound = await Decks.find({userId: req.session.user._id}).populate('cards');
+  const decksFound = await Decks.find({
+    $or: [
+      {userId: req.session.user._id},
+      { isPublic: true }
+    ]
+  }).populate('cards');
+
   res.render('decks', {decksFound});
 })
+
 
 // show one specific deck and its cards
 app.get('/deck/:slug', authRequired, (req, res) => {
   const deckSlug = req.params.slug; 
-  Decks.findOne({ name: deckSlug, userId: req.session.user._id})
+  Decks.findOne({ name: deckSlug, $or: [ {isPublic: true}, {userId: req.session.user._id} ]})
     .populate('cards')
     .then(foundDeck => {
       if (!foundDeck) {
         return res.status(404).send('Deck not found');
       }
-      res.render('cardsTable', { deck: foundDeck, deckSlug }); //foundCards
+      const showDeleteButton = !foundDeck.isPublic;
+      res.render('cardsTable', { deck: foundDeck, deckSlug/*, showDeleteButton */}); //foundCards
     })
     .catch(() => res.status(500).send('Server error'));
 });
@@ -211,7 +220,7 @@ app.post('/deck/:slug/addCard', authRequired, (req, res) => {
   c.save()
     .then(savedCard => {
       return Decks.updateOne(
-        {name: deckSlug, userId: req.session.user._id},
+        {name: deckSlug, $or: [ {isPublic: true}, {userId: req.session.user._id} ]},
         {$push: {cards: savedCard}},
         {new: true}
       );
