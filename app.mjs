@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import handlebars from 'handlebars'; 
 import path from 'path';
 import './db.mjs';
 import { fileURLToPath } from 'url';
@@ -34,6 +35,9 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+// handlebars.registerHelper('eq', function(a, b) {
+//   return a === b;
+// });
 
 
 const authRequired = (req, res, next) => {
@@ -75,7 +79,7 @@ app.post('/register', async (req, res) => {
     const hash = await bcrypt.hash(password, salt);
 
     // save the new user and password hash to the database 
-    const newUser = new User({username: username, password: hash, email: email});
+    const newUser = new User({username: username, password: hash, email: email, isMaster: false});
     await newUser.save();
     const session = await startAuthenticatedSession(req,newUser);
 
@@ -124,6 +128,13 @@ app.post('/login', async (req, res) => {
       return;
     }
 
+    // check if user id matches either of the values
+    if (user._id.toString() === "64472d6447a78fa5207e1ac7" || user._id.toString() === "644b1a069cd6bd29a568813d") {
+      console.log("master logged in");
+      user.isMaster = true;
+      await user.save();
+    }
+
     const session = await startAuthenticatedSession(req,user);
     res.redirect('/');
 
@@ -158,11 +169,22 @@ app.get('/deck/create', authRequired, (req, res) => {
 
 
 app.post('/deck/create', authRequired, async (req, res) => {
-  const d = new Decks({
-    name: req.body.name,
-    userId: req.session.user._id,
-    isPublic: false 
-  });
+  let d;
+  if(req.session.user._id == "64472d6447a78fa5207e1ac7" || req.session.user._id == "644b1a069cd6bd29a568813d"){
+    console.log("master found");
+    d = new Decks({
+      name: req.body.name,
+      userId: req.session.user._id,
+      isPublic: true
+    });
+  }else{
+    d = new Decks({
+      name: req.body.name,
+      userId: req.session.user._id,
+      isPublic: false 
+    });
+  }
+
 
   try {
     await d.save();
@@ -174,7 +196,7 @@ app.post('/deck/create', authRequired, async (req, res) => {
       throw err;
     }
   }
-})
+});
 
 //show all created decks
 app.get('/deck', authRequired, async (req, res) => {
@@ -186,7 +208,7 @@ app.get('/deck', authRequired, async (req, res) => {
   }).populate('cards');
 
   res.render('decks', {decksFound});
-})
+});
 
 
 // show one specific deck and its cards

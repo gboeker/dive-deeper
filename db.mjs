@@ -33,7 +33,8 @@ const UserSchema = new mongoose.Schema({
   username: {type: String, required: true, minLength: 3, maxLength: 20},
   password: {type: String, required: true, minLength: 8},
   email: {type: String, required: true},
-  decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Decks' }]
+  decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Decks' }],
+  isMaster: Boolean
 });
 
 const Cards = new mongoose.Schema({

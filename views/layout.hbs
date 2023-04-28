@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="screen" title="no title" charset="utf-8">
 		<script src="https://accounts.google/gsi/client" async defer></script>
 </head>
+
 <body>
 	<nav>
 		<ul>
@@ -24,6 +25,8 @@
 	</nav>
 
 <style>
+
+	
 </style>
 <div id="container">
 	<header>
@@ -38,21 +41,32 @@
 		</div>
 			
 	</header>
+
 	<nav>
 		<ul>
 			<li><a href="/deck">All Decks</a></li>
 			<li><a href="/deck/create">Create New Deck</a></li>
 			{{#if deck}}
 				{{#unless deck.isPublic}}
-				<li><a href="/deck/{{deck.name}}/addCard">Add Card</a></li>
-				{{!-- <li><a href="/deck/{{deck.name}}/delete">Delete Deck</a></li> --}}
-				<li>
-					<a>
-						<form action="/deck/{{deck.name}}/delete" method="post">
-							<button type="submit" class="deleteButton">Delete Deck</button>
-						</form>
-					</a>
-				</li>
+						<li><a href="/deck/{{deck.name}}/addCard">Add Card</a></li>
+						{{!-- <li><a href="/deck/{{deck.name}}/delete">Delete Deck</a></li> --}}
+						<li>
+							<a>
+								<form action="/deck/{{deck.name}}/delete" method="post">
+									<button type="submit" class="deleteButton">Delete Deck</button>
+								</form>
+							</a>
+						</li>
+				{{else if user.isMaster}}
+						<li><a href="/deck/{{deck.name}}/addCard">Add Card</a></li>
+						{{!-- <li><a href="/deck/{{deck.name}}/delete">Delete Deck</a></li> --}}
+						<li>
+							<a>
+								<form action="/deck/{{deck.name}}/delete" method="post">
+									<button type="submit" class="deleteButton">Delete Deck</button>
+								</form>
+							</a>
+						</li>
 				{{/unless}}
 			{{/if}}
 		</ul>
